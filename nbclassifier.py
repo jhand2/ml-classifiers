@@ -1,9 +1,9 @@
 class nbclassifier(object):
+
     def __init__(self, trainer):
         super(nbclassifier, self).__init__()
         self.data = trainer
         self.nonzero = .0000001
-
 
     def classify(self, attributes):
         """Returns classification based on highest probability"""
@@ -12,9 +12,11 @@ class nbclassifier(object):
 
         # P(att|className)
         for class_name in classes:
-            atts_probs = [self.get_att_prob(att, class_name) for att in attributes]
+            atts_probs =\
+                [self.get_att_prob(att, class_name) for att in attributes]
 
-            # P(attributes|class_name) = P(att1|class_name) * P(att2|class_name) * ... * P(attn|class_name)
+            # P(attributes|class_name) =
+            # P(att1|class_name) * P(att2|class_name) * ... * P(attn|class_name)
             total_att_prob = 0
             if len(atts_probs) > 0:
                 total_att_prob = 1
@@ -34,11 +36,9 @@ class nbclassifier(object):
                 classification = class_name
         return classification
 
-
-    def get_prior_prob(self, class_name):
-        """Return P(class_name)"""
-        return self.data.get_class_count(class_name) / self.data.get_data_count()
-
+    def get_prior_prob(self, cls_name):
+        """Return P(cls_name)"""
+        return self.data.get_class_count(cls_name) / self.data.get_data_count()
 
     def get_att_prob(self, att, class_name):
         """Return P(att|class_name)"""

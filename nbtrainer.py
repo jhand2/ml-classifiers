@@ -5,13 +5,17 @@ class nbtrainer(object):
         self.att_count = {}
 
     def train(self, attributes, class_name):
-        """Adds one count to the given class and adds one to the count of each attribute for that class"""
+        """
+        Adds one count to the given class and adds one to the count of
+        each attribute for that class
+        """
         self.class_count[class_name] = self.class_count.get(class_name, 0) + 1
 
         for att in attributes:
-            if not att in self.att_count:
+            if att not in self.att_count:
                 self.att_count[att] = {}
-            self.att_count[att][class_name] = self.att_count[att].get(class_name, 0) + 1
+            self.att_count[att][class_name] =\
+                self.att_count[att].get(class_name, 0) + 1
 
     def get_classes(self):
         """Return list of classes"""
@@ -31,4 +35,3 @@ class nbtrainer(object):
             return self.att_count[att][class_name]
         except:
             return None
-
