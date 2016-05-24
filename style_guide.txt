@@ -1,0 +1,23 @@
+=================================================
+Some basic code style guidelines for this project
+=================================================
+by Jordan Hand
+
+- One level of indentation *must* be 4 spaces. It cannot be a tab character
+  or any other number of spaces.
+
+- All variables and functions should be lower case and words separated
+  by an underscore.
+
+    Example: def my_function()
+
+- Modules (python source files) should be all lower case with no spaces.
+
+    Example: naivebayes.py
+
+- Lines should not be more than 80 characters long
+
+- Follow pep8 style guide as closely as possible (outlined in the python
+  documentation). I suggest getting a python linter for your favorite
+  editor or that you can run from command line. (flake8 is pretty good and
+  has support in a lot of editors).
