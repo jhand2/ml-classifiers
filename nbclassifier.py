@@ -30,7 +30,6 @@ class nbclassifier(object):
         classification = ""
         best = self.nonzero
         for class_name in classes:
-            # print(class_name + ": " + str(probs[class_name]))
             if probs[class_name] > best:
                 best = probs[class_name]
                 classification = class_name
@@ -42,7 +41,7 @@ class nbclassifier(object):
 
     def get_att_prob(self, att, class_name):
         """Return P(att|class_name)"""
-        total = self.data.get_data_count()
+        total = self.data.get_class_count(class_name)
         att_count = self.data.get_att_count(att, class_name)
 
         if att_count is None:
