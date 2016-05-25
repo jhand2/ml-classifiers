@@ -10,19 +10,29 @@ data = ham + spam
 random.shuffle(data)
 
 third = len(data) // 3
+
 training_data = data[:third * 2]
 test_data = data[third * 2:]
 
-trainer = nbtrainer()
-for d in training_data:
-    trainer.train(d['attribute'], d['class'])
 
-classifier = nbclassifier(trainer)
+def train_nb():
+    trainer = nbtrainer()
+    for d in training_data:
+        trainer.train(d['attribute'], d['class'])
+
+    classifier = nbclassifier(trainer)
+    return classifier
 
 
-def test(name, data):
+def classify_test(classifier):
+    for d in test_data:
+        test(d["name"], d["attribute"], classifier)
+
+
+def test(name, data, classifier):
     classification = classifier.classify(data)
     print('Item ' + name + ' is a ' + classification)
 
-for d in test_data:
-    test(d["name"], d["attribute"])
+if __name__ == "__main__":
+    classifier = train_nb()
+    classify_test(classifier)

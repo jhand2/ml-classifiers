@@ -36,6 +36,9 @@ def parse_file(fname, path, label):
 
 
 def extract_words(f):
+    """
+    Takes a string f of words and parses them into a list of words.
+    """
     text = []
     try:
         for line in f:
