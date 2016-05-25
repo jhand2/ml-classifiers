@@ -1,38 +1,42 @@
+#!/bin/python3.5
+
 from nbtrainer import nbtrainer
 from nbclassifier import nbclassifier
 
 training_data = [{'attribute': ['not long', 'not yellow'], 'class': 'lemon'},
-                {'attribute': ['not long', 'not yellow'], 'class': 'lemon'},
-                {'attribute': ['not long', 'not yellow'], 'class': 'lemon'},
-                {'attribute': ['not long', 'not yellow'], 'class': 'other'},
-                {'attribute': ['not long', 'not yellow'], 'class': 'other'},
-                {'attribute': ['not long', 'not yellow'], 'class': 'other'},
-                {'attribute': ['not long', 'yellow'], 'class': 'lemon'},
-                {'attribute': ['not long', 'yellow'], 'class': 'lemon'},
-                {'attribute': ['not long', 'yellow'], 'class': 'lemon'},
-                {'attribute': ['not long', 'yellow'], 'class': 'lemon'},
-                {'attribute': ['not long', 'yellow'], 'class': 'lemon'},
-                {'attribute': ['not long', 'yellow'], 'class': 'other'},
-                {'attribute': ['long', 'not yellow'], 'class': 'banana'},
-                {'attribute': ['long', 'not yellow'], 'class': 'banana'},
-                {'attribute': ['long', 'not yellow'], 'class': 'banana'},
-                {'attribute': ['long', 'not yellow'], 'class': 'other'},
-                {'attribute': ['long', 'not yellow'], 'class': 'other'},
-                {'attribute': ['long', 'yellow'], 'class': 'banana'},
-                {'attribute': ['long', 'yellow'], 'class': 'banana'},
-                {'attribute': ['long', 'yellow'], 'class': 'banana'},
-                {'attribute': ['long', 'yellow'], 'class': 'banana'},
-                {'attribute': ['long', 'yellow'], 'class': 'banana'},
-                {'attribute': ['long', 'yellow'], 'class': 'banana'},
-                {'attribute': ['long', 'yellow'], 'class': 'banana'},
-                {'attribute': ['long', 'yellow'], 'class': 'banana'},
-                {'attribute': ['long', 'yellow'], 'class': 'banana'}]
+                 {'attribute': ['not long', 'not yellow'], 'class': 'lemon'},
+                 {'attribute': ['not long', 'not yellow'], 'class': 'lemon'},
+                 {'attribute': ['not long', 'not yellow'], 'class': 'other'},
+                 {'attribute': ['not long', 'not yellow'], 'class': 'other'},
+                 {'attribute': ['not long', 'not yellow'], 'class': 'other'},
+                 {'attribute': ['not long', 'not yellow'], 'class': 'other'},
+                 {'attribute': ['not long', 'yellow'], 'class': 'lemon'},
+                 {'attribute': ['not long', 'yellow'], 'class': 'lemon'},
+                 {'attribute': ['not long', 'yellow'], 'class': 'lemon'},
+                 {'attribute': ['not long', 'yellow'], 'class': 'lemon'},
+                 {'attribute': ['not long', 'yellow'], 'class': 'lemon'},
+                 {'attribute': ['not long', 'yellow'], 'class': 'other'},
+                 {'attribute': ['long', 'not yellow'], 'class': 'banana'},
+                 {'attribute': ['long', 'not yellow'], 'class': 'banana'},
+                 {'attribute': ['long', 'not yellow'], 'class': 'banana'},
+                 {'attribute': ['long', 'not yellow'], 'class': 'other'},
+                 {'attribute': ['long', 'not yellow'], 'class': 'other'},
+                 {'attribute': ['long', 'yellow'], 'class': 'banana'},
+                 {'attribute': ['long', 'yellow'], 'class': 'banana'},
+                 {'attribute': ['long', 'yellow'], 'class': 'banana'},
+                 {'attribute': ['long', 'yellow'], 'class': 'banana'},
+                 {'attribute': ['long', 'yellow'], 'class': 'banana'},
+                 {'attribute': ['long', 'yellow'], 'class': 'banana'},
+                 {'attribute': ['long', 'yellow'], 'class': 'banana'},
+                 {'attribute': ['long', 'yellow'], 'class': 'banana'},
+                 {'attribute': ['long', 'yellow'], 'class': 'banana'}]
 
 trainer = nbtrainer()
 for data in training_data:
     trainer.train(data['attribute'], data['class'])
 
 classifier = nbclassifier(trainer)
+
 
 def test(data):
     classification = classifier.classify(data)

@@ -23,8 +23,8 @@ class nbtrainer(object):
         return self.class_count.keys()
 
     def get_class_count(self, class_name):
-        """Return frequency of given class, None if zero"""
-        return self.class_count.get(class_name, None)
+        """Return frequency of given class"""
+        return self.class_count.get(class_name, 0)
 
     def get_data_count(self):
         """Return total number of data"""
@@ -35,4 +35,4 @@ class nbtrainer(object):
         try:
             return self.att_count[att][class_name]
         except:
-            return None
+            return 0
