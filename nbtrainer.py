@@ -6,6 +6,7 @@ class nbtrainer(object):
 
     def train(self, attributes, class_name):
         """
+
         Adds one count to the given class and adds one to the count of
         each attribute for that class
         """

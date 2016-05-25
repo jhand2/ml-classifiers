@@ -1,3 +1,6 @@
+import math
+
+
 class nbclassifier(object):
 
     def __init__(self, trainer):
@@ -21,10 +24,10 @@ class nbclassifier(object):
             if len(atts_probs) > 0:
                 total_att_prob = 1
                 for prob in atts_probs:
-                    total_att_prob = total_att_prob * prob
+                    total_att_prob = total_att_prob + prob
 
             # P(className|att)
-            probs[class_name] = total_att_prob * self.get_prior_prob(class_name)
+            probs[class_name] = total_att_prob + self.get_prior_prob(class_name)
 
         # Returns className with highest probability
         classification = ""
@@ -37,14 +40,15 @@ class nbclassifier(object):
 
     def get_prior_prob(self, cls_name):
         """Return P(cls_name)"""
-        return self.data.get_class_count(cls_name) / self.data.get_data_count()
+        p = self.data.get_class_count(cls_name) / self.data.get_data_count()
+        return math.log(p)
 
     def get_att_prob(self, att, class_name):
-        """Return P(att|class_name)"""
+        """Return the log (base e) of P(att|class_name)"""
         total = self.data.get_class_count(class_name)
         att_count = self.data.get_att_count(att, class_name)
 
         if att_count is None:
             return self.nonzero
 
-        return att_count / total
+        return math.log(att_count / total)
