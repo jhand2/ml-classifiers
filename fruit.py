@@ -2,6 +2,9 @@
 
 from nbtrainer import nbtrainer
 from nbclassifier import nbclassifier
+import comparison as comp
+from knnclassifier import knnclassifier
+import random
 
 data = [
     {'attribute': ['not long', 'not yellow'], 'class': 'lemon'},
@@ -33,6 +36,8 @@ data = [
     {'attribute': ['long', 'yellow'], 'class': 'banana'}
 ]
 
+random.shuffle(data)
+
 for d in data:
     d["name"] = ", ".join(d["attribute"])
 
@@ -46,6 +51,10 @@ def train_nb(training_data):
     return classifier
 
 
+def train_knn(training_data):
+    return knnclassifier(training_data, 3)
+
+
 def test(data, classifier):
     classification = classifier.classify(data)
     print('Item that is: [' + ', '.join(data) + '] is a ' + classification)
@@ -53,7 +62,12 @@ def test(data, classifier):
 keys = ("attribute", "class", "name")
 
 trainers = {
-    "naive_bayes": train_nb
+    "naive_bayes": train_nb,
+    "knn": train_knn
+}
+
+tests = {
+    "holdout": lambda d, t, k=keys: comp.holdout_test(d, t, k)
 }
 
 if __name__ == "__main__":

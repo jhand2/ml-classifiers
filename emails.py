@@ -1,17 +1,17 @@
 import emailparser as parser
 from nbtrainer import nbtrainer
 from nbclassifier import nbclassifier
+from knnclassifier import knnclassifier
 import random
 import comparison as comp
+import os
 
-root_dir = '/Users/Josh/Documents/cse 415/ml-classifiers/enron1/'
-ham = parser.parse_directory(root_dir + "ham", "ham")
-spam = parser.parse_directory(root_dir + "spam", "spam")
+root_dir = os.path.abspath('enron1/')
+ham = parser.parse_directory(root_dir + "/ham", "ham")
+spam = parser.parse_directory(root_dir + "/spam", "spam")
 data = ham + spam
 random.shuffle(data)
 
-
-# REDUNDANT FILE SO I CAN TINKER WITH THINGS
 
 def train_nb(training_data):
     trainer = nbtrainer()
@@ -20,6 +20,10 @@ def train_nb(training_data):
 
     classifier = nbclassifier(trainer)
     return classifier
+
+
+def train_knn(training_data):
+    return knnclassifier(training_data, 3)
 
 
 def classify_test(classifier, test_data):
@@ -36,16 +40,12 @@ att = "attribute"
 lbl = "class"
 n = "name"
 keys = (att, lbl, n)
-trainer = train_nb
 
 trainers = {
-    "naive_bayes": train_nb
+    "naive_bayes": train_nb,
+    "knn": train_knn
 }
 
 tests = {
     "holdout": lambda d, t, k=keys: comp.holdout_test(d, t, k)
 }
-
-if __name__ == "__main__":
-    nb_acc = tests["holdout"](data, trainers["naive_bayes"])
-    print("Naive Bayes Accuracy: " + str(nb_acc))
