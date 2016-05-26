@@ -43,14 +43,13 @@ def get_response(neighbors):
             classVotes[response] += 1
         else:
             classVotes[response] = 1
-    print(classVotes.items())
     sortedVotes = sorted(classVotes.items(), key=lambda x: x[1], reverse=True)
     return sortedVotes[0][0]
 
 
 if __name__ == "__main__":
     trainSet = data
-    testInstance = random.choice(ham)
+    testInstance = random.choice(spam)
     testSet = []
     k = 5  # Important that k is odd so there are no ties
     neighbors = get_neighbors(trainSet, testInstance, k)
