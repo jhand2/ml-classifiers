@@ -45,4 +45,4 @@ def extract_words(f):
             text += re.sub("[^\w]", " ", line).split()
     except UnicodeDecodeError:
         pass
-    return text
+    return set(text)
