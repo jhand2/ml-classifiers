@@ -9,13 +9,19 @@ else:
     model = importlib.import_module(sys.argv[1])
 
 if __name__ == "__main__":
-    print("Welcome to a data model of %s." % sys.argv[1])
-    print("Please choose a classifier.")
-    print("")
-    print("Options are: " + str(list(model.trainers.keys())))
-    classifier = input(">> ")
     m = model
-    acc = m.tests["holdout"](m.data, m.trainers["naive_bayes"])
+    print("Welcome to a data model of %s." % sys.argv[1])
+    print("")
+    print("Please choose a classifier.")
+    print("Options are: " + str(list(m.trainers.keys())))
+    classifier = input(">> ")
+    print("")
+    print("Please choose a testing method.")
+    print("Options are: " + str(list(m.tests.keys())))
+    test = input(">> ")
+    print("")
+
+    acc = m.tests[test](m.data, m.trainers[classifier])
     acc_str = "Accuracy of %s on data model %s: %s" %\
         (classifier, sys.argv[1], acc)
     print(acc_str)
