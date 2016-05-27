@@ -1,5 +1,6 @@
 import os
 import re
+import numpy as np
 
 
 def parse_directory(dirname, label):
@@ -17,7 +18,7 @@ def parse_directory(dirname, label):
         path = os.path.join(d, f)
         if os.path.isfile(path):
             records.append(parse_file(f, path, label))
-    return records
+    return np.array(records)
 
 
 def parse_file(fname, path, label):

@@ -1,6 +1,8 @@
 class knnclassifier(object):
-    def __init__(self, data, k):
+    def __init__(self, data, keys, k):
         self.data = data
+        self.feat_key = keys[0]
+        self.lbl_key = keys[1]
         self.k = k
 
     def __hueristic_distance(self, instance1, instance2):
@@ -8,10 +10,8 @@ class knnclassifier(object):
         Returns the calculated similarity between any two given data instances.
         In this case returns the number of similar words between two emails.
         '''
-        attr1 = instance1
-        attr2 = instance2
-        dif = [x for x in attr2 if x in attr1]
-        return len(dif)
+        same = set.intersection(instance1, instance2)
+        return len(same)
 
     def get_neighbors(self, d, k):
         '''
@@ -19,7 +19,7 @@ class knnclassifier(object):
         '''
         distances = []
         for record in self.data:
-            dist = self.__hueristic_distance(d, record)
+            dist = self.__hueristic_distance(d, record[self.feat_key])
             distances.append((record, dist))
         distances.sort(key=lambda x: x[1], reverse=True)
         neighbors = []
@@ -29,13 +29,12 @@ class knnclassifier(object):
 
     def classify(self, d):
         '''
-        Returns the majority voted response from a number of neighbors. It
-        assumes the class is the 'class' attribute for each neighbor dictionary
+        Returns the majority voted response from a number of neighbors.
         '''
         neighbors = self.get_neighbors(d, self.k)
         classVotes = {}
-        for x in range(len(neighbors)):
-            response = neighbors[x]['class']
+        for n in neighbors:
+            response = n[self.lbl_key]
             if response in classVotes:
                 classVotes[response] += 1
             else:
