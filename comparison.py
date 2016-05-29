@@ -62,20 +62,18 @@ def bootstrap_test(data, training_func, keys):
         indices.add(sample)
     training = np.array(training)
 
-    test = []
-    for i in data_range:
-        if i not in indices:
-            test.append(data[i])
-    test = np.array(test)
-
     classifier = training_func(training)
 
     correct = 0
-    total = len(test)
+    total = 0
     classified = {}
-    for d in test:
-        label = classifier.classify(d[keys[0]])
-        classified[d[keys[2]]] = label
-        if label == d[keys[1]]:
-            correct += 1
+    for i in data_range:
+        if i not in indices:
+            d = data[i]
+            label = classifier.classify(d[keys[0]])
+            classified[d[keys[2]]] = label
+            if label == d[keys[1]]:
+                correct += 1
+            total += 1
+
     return correct / total

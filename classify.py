@@ -1,7 +1,7 @@
 #!/bin/python3.5
-
 import sys
 import importlib
+import time
 
 if len(sys.argv) < 2:
     print("Usage:")
@@ -23,7 +23,12 @@ if __name__ == "__main__":
     test = input(">> ")
     print("")
 
+    s_time = int(round(time.time() * 1000))
+    print("Running Test...")
+    print("")
     acc = m.tests[test](m.data, m.trainers[classifier])
+    end_time = int(round(time.time() * 1000))
     acc_str = "Accuracy of %s on data model %s: %s" %\
         (classifier, sys.argv[1], acc)
     print(acc_str)
+    print("Elapsed Time: " + str((end_time - s_time) / 1000))

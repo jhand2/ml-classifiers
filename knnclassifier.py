@@ -1,3 +1,6 @@
+import time
+
+
 class knnclassifier(object):
     def __init__(self, data, keys, k):
         self.data = data
@@ -10,7 +13,9 @@ class knnclassifier(object):
         Returns the calculated similarity between any two given data instances.
         In this case returns the number of similar words between two emails.
         '''
-        same = set.intersection(instance1, instance2)
+        att1 = instance1
+        att2 = instance2
+        same = set.intersection(att1, att2)
         return len(same)
 
     def get_neighbors(self, d, k):
@@ -23,6 +28,7 @@ class knnclassifier(object):
             distances.append((record, dist))
         distances.sort(key=lambda x: x[1], reverse=True)
         neighbors = []
+
         for x in range(k):
             neighbors.append(distances[x][0])
         return neighbors
@@ -34,7 +40,10 @@ class knnclassifier(object):
         neighbors = self.get_neighbors(d, self.k)
         classVotes = {}
         for n in neighbors:
+            s_time = time.time() * 1000
             response = n[self.lbl_key]
+            e_time = time.time() * 1000
+            print("Elapsed time for one response = " + str(e_time - s_time))
             if response in classVotes:
                 classVotes[response] += 1
             else:
