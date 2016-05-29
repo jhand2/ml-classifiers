@@ -35,6 +35,10 @@ def parse_file(fname, path, label):
     record['name'] = fname.decode("utf-8")
     return record
 
+stop_words = set(['the', 'a', 'an', 'and', 'or', 'as', 'at', 'be', 'for',
+                  'it', 'is', 'in', 'of', 'on', 'that', 'to', 'its', 'were',
+                  'with', 'all', 'he', 'has'])
+
 
 def extract_words(f):
     """
@@ -43,7 +47,9 @@ def extract_words(f):
     text = []
     try:
         for line in f:
-            text += re.sub("[^\w]", " ", line).split()
+            words = re.sub("[^\w]", " ", line).split()
+            text += [x.lower() for x in words]
     except UnicodeDecodeError:
         pass
-    return set(text)
+    w = set(text) - stop_words
+    return w

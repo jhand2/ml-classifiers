@@ -2,6 +2,7 @@ import emailparser as parser
 from nbtrainer import nbtrainer
 from nbclassifier import nbclassifier
 from knnclassifier import knnclassifier
+from bagging import bagging
 import comparison as comp
 import os
 import numpy as np
@@ -15,6 +16,7 @@ att = "attribute"
 lbl = "class"
 n = "name"
 keys = (att, lbl, n)
+
 
 def train_nb(training_data):
     """
@@ -51,10 +53,18 @@ def test(name, data, classifier):
     print('Item ' + name + ' is a ' + classification)
 
 
+def bagging_trainer(training_data):
+    return bagging(training_data, [train_nb, train_knn], 10)
+
+
+def bagging_test(d, t):
+    return comp.bagging_test(d, t, keys)
+
+
 # Classification techniques available for this formulation
 trainers = {
     "naive_bayes": train_nb,
-    "knn": train_knn
+    "knn": train_knn,
 }
 
 # Testing methods available for this formulation

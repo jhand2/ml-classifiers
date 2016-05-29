@@ -18,11 +18,8 @@ def holdout_test(data, training_func, keys):
         training_func (function): A function that can take a subset of data to
                                   train a classifier. Should return a classifier
     """
-    data_cpy = data[:]
-    r.shuffle(data_cpy)
-    third = len(data_cpy) // 3
-    training_data = np.array(data_cpy[:third * 2])
-    test_data = np.array(data_cpy[third * 2:])
+    n = (len(data) // 3) * 2
+    training_data, test_data = holdout_split(data, n)
     classifier = training_func(training_data)
 
     correct = 0
@@ -34,6 +31,14 @@ def holdout_test(data, training_func, keys):
         if label == d[keys[1]]:
             correct += 1
     return correct / total
+
+
+def holdout_split(data, n):
+    data_cpy = data[:]
+    r.shuffle(data_cpy)
+    training_data = np.array(data_cpy[:n])
+    test_data = np.array(data_cpy[n:])
+    return (training_data, test_data)
 
 
 def bootstrap_test(data, training_func, keys):
@@ -53,6 +58,48 @@ def bootstrap_test(data, training_func, keys):
                                   train a classifier. Should return a classifier
     """
     n = (len(data) // 3) * 2
+    training, test_data, _ = b_data_split(data, n)
+    correct = 0
+    total = len(test_data)
+    classified = {}
+    classifier = training_func(training)
+
+    for d in test_data:
+        label = classifier.classify(d[keys[0]])
+        classified[d[keys[2]]] = label
+        if label == d[keys[1]]:
+            correct += 1
+
+    return correct / total
+
+
+def bagging_test(data, training_func, keys):
+    n = (len(data) // 10) * 9
+    training, test_data = holdout_split(data, n)
+    print(len(test_data))
+    correct = 0
+    classified = {}
+    classifier = training_func(training)
+
+    total = len(test_data)
+
+    for d in test_data:
+        label = classifier.classify(d[keys[0]])
+        classified[d[keys[2]]] = label
+        print("Actual Label: " + str(d[keys[1]]))
+        print("")
+        if label == d[keys[1]]:
+            correct += 1
+
+    return correct / total
+
+
+def b_data_split(data, n):
+    """
+    Splits the data using the bootstrap method
+    """
+    # n = (len(data) // 10) * 9
+    # n = len(data)
     training = []
     indices = set()
     data_range = range(len(data))
@@ -62,18 +109,8 @@ def bootstrap_test(data, training_func, keys):
         indices.add(sample)
     training = np.array(training)
 
-    classifier = training_func(training)
-
-    correct = 0
-    total = 0
-    classified = {}
+    test_data = []
     for i in data_range:
         if i not in indices:
-            d = data[i]
-            label = classifier.classify(d[keys[0]])
-            classified[d[keys[2]]] = label
-            if label == d[keys[1]]:
-                correct += 1
-            total += 1
-
-    return correct / total
+            test_data.append(data[i])
+    return (training, test_data, indices)

@@ -4,7 +4,7 @@ from nbtrainer import nbtrainer
 from nbclassifier import nbclassifier
 import comparison as comp
 from knnclassifier import knnclassifier
-import random
+from bagging import bagging
 
 data = [
     {'attribute': ['not long', 'not yellow'], 'class': 'lemon'},
@@ -36,30 +36,41 @@ data = [
     {'attribute': ['long', 'yellow'], 'class': 'banana'}
 ]
 
-random.shuffle(data)
+keys = ("attribute", "class", "name")
+# random.shuffle(data)
 
 for d in data:
     d["name"] = ", ".join(d["attribute"])
+    d["attribute"] = set(d["attribute"])
 
 
 def train_nb(training_data):
     trainer = nbtrainer()
-    for data in training_data:
-        trainer.train(data['attribute'], data['class'])
+    trainer.train(training_data, keys)
 
     classifier = nbclassifier(trainer)
     return classifier
 
 
 def train_knn(training_data):
-    return knnclassifier(training_data, 3)
+    return knnclassifier(training_data, keys, 3)
+
+
+def bagging_trainer(training_data):
+    return bagging(training_data, train_nb, 10)
 
 
 def test(data, classifier):
     classification = classifier.classify(data)
     print('Item that is: [' + ', '.join(data) + '] is a ' + classification)
 
-keys = ("attribute", "class", "name")
+
+def bagging_trainer(training_data):
+    return bagging(training_data, [train_nb, train_knn], 10)
+
+
+def bagging_test(d, t):
+    return comp.bagging_test(d, t, keys)
 
 trainers = {
     "naive_bayes": train_nb,
@@ -67,7 +78,8 @@ trainers = {
 }
 
 tests = {
-    "holdout": lambda d, t, k=keys: comp.holdout_test(d, t, k)
+    "holdout": lambda d, t, k=keys: comp.holdout_test(d, t, k),
+    "bootstrap": lambda d, t, k=keys: comp.bootstrap_test(d, t, k)
 }
 
 if __name__ == "__main__":
