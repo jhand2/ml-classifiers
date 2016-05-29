@@ -1,5 +1,4 @@
 import os
-import re
 
 
 def parse_directory(dirname, label):
@@ -47,5 +46,3 @@ def extract_words(f):
     for x in range(len(left)):
         board.append(piece[x] + left[x] + right[x])
     return board
-
-print(extract_words("a,1,c,1,c,2,draw"))
