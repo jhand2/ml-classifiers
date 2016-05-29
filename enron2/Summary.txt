@@ -1,0 +1,76 @@
+King-Rook vs King Data Set
+Brain, M and van Hoff, A. Chess (King-Rook vs. King) Data Set [https://archive.ics.uci.edu/ml/datasets/Chess+%28King-Rook+vs.+King%29]. Turing Institute, Glasgow, UK
+
+Format: 
+White King file (column), White King rank (row), White Rook file, White Rook rank, Black King file, Black King rank, optimal depth-of-win for White in 0 to 16 moves, otherwise drawn {draw, zero, one, two, ..., sixteen}
+
+Draw
+----------
+Boards: 2796
+
+One
+----------
+Boards: 79
+
+Two
+----------
+Boards: 246
+
+Three
+----------
+Boards: 81
+
+Four
+----------
+Boards: 198
+
+Five
+----------
+Boards: 471
+
+Six
+----------
+Boards: 592
+
+Seven
+----------
+Boards: 683
+
+Eight
+----------
+Boards: 1433
+
+Nine
+----------
+Boards: 1712
+
+Ten
+----------
+Boards: 1985
+
+Eleven
+----------
+Boards: 2854
+
+Twelve
+----------
+Boards: 3597
+
+Thirteen
+----------
+Boards: 4194
+
+Fourteen
+----------
+Boards: 4553
+
+Fifteen
+----------
+Boards: 2166
+
+Sixteen
+----------
+Boards: 390
+
+
+Total boards = 28056
