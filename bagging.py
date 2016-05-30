@@ -8,7 +8,7 @@ class bagging(object):
         self.data = data[:]
         self.indices = set(range(len(data)))
         t_mult = []
-        for i in range(5):
+        for i in range(10):
             t_mult.append(r.choice(trainers))
         for t in t_mult:
             n = len(data)

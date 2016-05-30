@@ -76,7 +76,8 @@ def bootstrap_test(data, training_func, keys):
 def bagging_test(data, training_func, keys):
     n = (len(data) // 10) * 9
     training, test_data = holdout_split(data, n)
-    print(len(test_data))
+    print("Classifying " + str(len(test_data)) + " data points.")
+    print("")
     correct = 0
     classified = {}
     classifier = training_func(training)

@@ -38,11 +38,13 @@ def extract_words(f):
     """
     Takes a string f board and parses it into a list
     """
-    temp = f.split(',')[:-1]
     board = []
-    left = temp[::2]
-    right = temp[1::2]
-    piece = ['WKing:', 'WRook:', 'BKing:']
-    for x in range(len(left)):
-        board.append(piece[x] + left[x] + right[x])
-    return board
+    for line in f:
+        temp = line.split(',')[:-1]
+        board = []
+        left = temp[::2]
+        right = temp[1::2]
+        piece = ['WKing:', 'WRook:', 'BKing:']
+        for x in range(len(left)):
+            board.append(piece[x] + left[x] + right[x])
+    return frozenset(board)

@@ -1,12 +1,13 @@
-import emailparser as parser
+import chessparser as parser
 from nbtrainer import nbtrainer
 from nbclassifier import nbclassifier
 from knnclassifier import knnclassifier
+from bagging import bagging
 import random
 import comparison as comp
 import os
 
-root_dir = os.path.abspath('enron2/')
+root_dir = os.path.abspath('chessdata/')
 draw = parser.parse_directory(root_dir + "/draw", "draw")
 zero = parser.parse_directory(root_dir + "/zero", "zero")
 one = parser.parse_directory(root_dir + "/one", "one")
@@ -25,22 +26,32 @@ thirteen = parser.parse_directory(root_dir + "/thirteen", "thirteen")
 fourteen = parser.parse_directory(root_dir + "/fourteen", "fourteen")
 fifteen = parser.parse_directory(root_dir + "/fifteen", "fifteen")
 sixteen = parser.parse_directory(root_dir + "/sixteen", "sixteen")
-data = draw + zero + one + two + three + four + five + six + seven + eight + nine + ten + \
-    eleven + twelve + thirteen + fourteen + fifteen + sixteen
+
+data = draw + zero + one + two + three + four + five + six + seven + eight +\
+       nine + ten + eleven + twelve + thirteen + fourteen + fifteen + sixteen
 random.shuffle(data)
+
+att = "attribute"
+lbl = "class"
+n = "name"
+keys = (att, lbl, n)
 
 
 def train_nb(training_data):
+    """
+    Trains email data on a naive bayes classifier
+    """
     trainer = nbtrainer()
-    for d in training_data:
-        trainer.train(d['attribute'], d['class'])
-
+    trainer.train(training_data, keys)
     classifier = nbclassifier(trainer)
     return classifier
 
 
 def train_knn(training_data):
-    return knnclassifier(training_data, 3)
+    """
+    Trains email data on a k nearest neighbors classifier
+    """
+    return knnclassifier(training_data, keys, 3)
 
 
 def classify_test(classifier, test_data):
@@ -53,10 +64,13 @@ def test(name, data, classifier):
     print('Board ' + name + ' is a ' + classification + ' (move(s) win)')
 
 
-att = "attribute"
-lbl = "class"
-n = "name"
-keys = (att, lbl, n)
+def bagging_trainer(training_data):
+    return bagging(training_data, [train_nb, train_knn], 10)
+
+
+def bagging_test(d, t):
+    return comp.bagging_test(d, t, keys)
+
 
 trainers = {
     "naive_bayes": train_nb,
@@ -64,5 +78,6 @@ trainers = {
 }
 
 tests = {
-    "holdout": lambda d, t, k=keys: comp.holdout_test(d, t, k)
+    "holdout": lambda d, t, k=keys: comp.holdout_test(d, t, k),
+    "bootstrap": lambda d, t, k=keys: comp.bootstrap_test(d, t, k)
 }
