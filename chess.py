@@ -68,8 +68,8 @@ def bagging_trainer(training_data):
     return bagging(training_data, [train_nb, train_knn], 10)
 
 
-def bagging_test(d, t):
-    return comp.bagging_test(d, t, keys)
+def bagging_test(d, t, output):
+    return comp.bagging_test(d, t, output, keys)
 
 
 trainers = {
@@ -78,6 +78,6 @@ trainers = {
 }
 
 tests = {
-    "holdout": lambda d, t, k=keys: comp.holdout_test(d, t, k),
-    "bootstrap": lambda d, t, k=keys: comp.bootstrap_test(d, t, k)
+    "holdout": lambda d, t, o, k=keys: comp.holdout_test(d, t, o, k),
+    "bootstrap": lambda d, t, o, k=keys: comp.bootstrap_test(d, t, o, k)
 }

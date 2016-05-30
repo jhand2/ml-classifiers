@@ -33,7 +33,7 @@ class knnclassifier(object):
             neighbors.append(distances[x][0])
         return neighbors
 
-    def classify(self, d):
+    def classify(self, d, output):
         '''
         Returns the majority voted response from a number of neighbors.
         '''

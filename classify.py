@@ -32,7 +32,7 @@ def run_test(m, classifier, test):
     s_time = int(round(time.time() * 1000))
     print("Running Test...")
     print("")
-    acc = test(m.data, classifier)
+    acc = test(m.data, classifier, True)
     end_time = int(round(time.time() * 1000))
     print("Elapsed Time: " + str((end_time - s_time) / 1000))
     print("")
@@ -46,20 +46,66 @@ def intro():
     print("Options are " + str(options))
     return input(">> ")
 
+
+def compare(m):
+    """
+    Gets the two algorithms to be compared
+    """
+    options = list(m.trainers.keys()) + ["bagging"]
+    print("Choose two algorithms to compare.")
+    print("Options are: " + str(options))
+    print("")
+    first = ""
+    second = ""
+    seen = False
+    while first not in options or second not in options:
+        if seen:
+            print("Not valid algorithms")
+            print("")
+        first = input("First algorithm: ")
+        second = input("Second algorithm: ")
+        print("")
+        seen = True
+    print("")
+    return (first.lower(), second.lower())
+
 if __name__ == "__main__":
     m = model
     topic = intro().lower()
-    # classifier = None
-    if topic == "algorithms":
-        classifier = get_classifier(m)
-        test = get_test_method(m)
-        training_func = m.trainers[classifier]
-        test_func = m.tests[test]
-    elif topic == "bagging":
-        classifier = topic
-        training_func = m.bagging_trainer
-        test_func = m.bagging_test
-    acc = run_test(m, training_func, test_func) * 100
+    classifier = None
+    if topic != "comparison":
+        if topic == "algorithms":
+            classifier = get_classifier(m)
+            test = get_test_method(m)
+            training_func = m.trainers[classifier]
+            test_func = m.tests[test]
+        elif topic == "bagging":
+            classifier = topic
+            training_func = m.bagging_trainer
+            test_func = m.bagging_test
+        acc = run_test(m, training_func, test_func) * 100
 
-    triple = (classifier, sys.argv[1], acc)
-    print("Accuracy of %s on data model %s: %.2f%%" % triple)
+        triple = (classifier, sys.argv[1], acc)
+        print("Accuracy of %s on data model %s: %.2f%%" % triple)
+    else:
+        algs = compare(m)
+        accuracies = []
+        print("The data is shuffled and the the holdout method is being used")
+        print("to create training/test sets.")
+        print("The same training and test sets are used for each algorithm.")
+        print("")
+        print("Running Tests, this may time a minute or two...")
+        for alg in algs:
+            s = time.time()
+            if alg == "bagging":
+                acc = m.tests["holdout"](m.data, m.bagging_trainer, False)
+            else:
+                acc = m.tests["holdout"](m.data, m.trainers[alg], False)
+            e = time.time()
+            accuracies.append((alg, acc, e - s))
+        print("")
+        for a in accuracies:
+            triple = (a[0], sys.argv[1], a[1])
+            print("Accuracy of %s on data model %s: %.2f%%" % triple)
+            print("Elapsed Time: %.2f" % a[2])
+            print("")

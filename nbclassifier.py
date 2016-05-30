@@ -9,7 +9,7 @@ class nbclassifier(object):
         self.k = 1
         self.num_classes = len(self.data.get_classes())
 
-    def classify(self, attributes):
+    def classify(self, attributes, output):
         """Returns classification based on highest probability"""
         classes = self.data.get_classes()
         probs = {}

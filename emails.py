@@ -11,6 +11,7 @@ root_dir = os.path.abspath('enron1/')
 ham = parser.parse_directory(root_dir + "/ham", "ham")
 spam = parser.parse_directory(root_dir + "/spam", "spam")
 data = np.concatenate((spam, ham))
+np.random.shuffle(data)
 
 att = "attribute"
 lbl = "class"
@@ -57,8 +58,8 @@ def bagging_trainer(training_data):
     return bagging(training_data, [train_nb, train_knn], 10)
 
 
-def bagging_test(d, t):
-    return comp.bagging_test(d, t, keys)
+def bagging_test(d, t, output):
+    return comp.bagging_test(d, t, output, keys)
 
 
 # Classification techniques available for this formulation
@@ -69,6 +70,6 @@ trainers = {
 
 # Testing methods available for this formulation
 tests = {
-    "holdout": lambda d, t, k=keys: comp.holdout_test(d, t, k),
-    "bootstrap": lambda d, t, k=keys: comp.bootstrap_test(d, t, k)
+    "holdout": lambda d, t, o, k=keys: comp.holdout_test(d, t, o, k),
+    "bootstrap": lambda d, t, o, k=keys: comp.bootstrap_test(d, t, o, k)
 }

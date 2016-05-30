@@ -2,7 +2,7 @@ import random as r
 import numpy as np
 
 
-def holdout_test(data, training_func, keys):
+def holdout_test(data, training_func, output, keys):
     """
     Uses the holdout method on the given data to test accuracy.
 
@@ -18,7 +18,7 @@ def holdout_test(data, training_func, keys):
         training_func (function): A function that can take a subset of data to
                                   train a classifier. Should return a classifier
     """
-    n = (len(data) // 3) * 2
+    n = (len(data) // 10) * 9
     training_data, test_data = holdout_split(data, n)
     classifier = training_func(training_data)
 
@@ -26,7 +26,7 @@ def holdout_test(data, training_func, keys):
     total = len(test_data)
     classified = {}
     for d in test_data:
-        label = classifier.classify(d[keys[0]])
+        label = classifier.classify(d[keys[0]], output)
         classified[d[keys[2]]] = label
         if label == d[keys[1]]:
             correct += 1
@@ -41,7 +41,7 @@ def holdout_split(data, n):
     return (training_data, test_data)
 
 
-def bootstrap_test(data, training_func, keys):
+def bootstrap_test(data, training_func, output, keys):
     """
     Uses the bootstrap method on the given data to test accuracy.
 
@@ -57,7 +57,7 @@ def bootstrap_test(data, training_func, keys):
         training_func (function): A function that can take a subset of data to
                                   train a classifier. Should return a classifier
     """
-    n = (len(data) // 3) * 2
+    n = (len(data) // 10) * 9
     training, test_data, _ = b_data_split(data, n)
     correct = 0
     total = len(test_data)
@@ -65,7 +65,7 @@ def bootstrap_test(data, training_func, keys):
     classifier = training_func(training)
 
     for d in test_data:
-        label = classifier.classify(d[keys[0]])
+        label = classifier.classify(d[keys[0]], output)
         classified[d[keys[2]]] = label
         if label == d[keys[1]]:
             correct += 1
@@ -73,7 +73,7 @@ def bootstrap_test(data, training_func, keys):
     return correct / total
 
 
-def bagging_test(data, training_func, keys):
+def bagging_test(data, training_func, output, keys):
     n = (len(data) // 10) * 9
     training, test_data = holdout_split(data, n)
     print("Classifying " + str(len(test_data)) + " data points.")
@@ -85,7 +85,7 @@ def bagging_test(data, training_func, keys):
     total = len(test_data)
 
     for d in test_data:
-        label = classifier.classify(d[keys[0]])
+        label = classifier.classify(d[keys[0]], output)
         classified[d[keys[2]]] = label
         print("Actual Label: " + str(d[keys[1]]))
         print("")

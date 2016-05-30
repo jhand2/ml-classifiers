@@ -1,5 +1,4 @@
 import comparison as comp
-import random as r
 
 
 class bagging(object):
@@ -8,8 +7,11 @@ class bagging(object):
         self.data = data[:]
         self.indices = set(range(len(data)))
         t_mult = []
-        for i in range(10):
-            t_mult.append(r.choice(trainers))
+        for i in range(9):
+            if i < 5:
+                t_mult.append(trainers[0])
+            else:
+                t_mult.append(trainers[1])
         for t in t_mult:
             n = len(data)
             split = comp.b_data_split(data, n)
@@ -17,17 +19,18 @@ class bagging(object):
             self.indices = self.indices - split[2]
             self.classifiers.append(t(train))
 
-    def classify(self, attributes):
+    def classify(self, attributes, output):
         votes = {}
         for c in self.classifiers:
-            lbl = c.classify(attributes)
+            lbl = c.classify(attributes, output)
             if lbl not in votes:
                 votes[lbl] = 1
             else:
                 votes[lbl] += 1
         sorted_votes = sorted(votes.items(), key=lambda x: x[1], reverse=True)
-        print("Chosen label: " + str(sorted_votes[0][0]))
-        print("Votes: " + str(list(votes.items())))
+        if output:
+            print("Chosen label: " + str(sorted_votes[0][0]))
+            print("Votes: " + str(list(votes.items())))
         return sorted_votes[0][0]
 
     def get_test_data(self):
