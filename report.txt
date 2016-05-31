@@ -3,3 +3,117 @@ Machine Learning Classifiers
 CSE 415 Spring 2016
 
 See README.txt for more information about this project.
+
+-------------------------------------------------------------------------------
+|                                    Title                                    |
+-------------------------------------------------------------------------------
+
+Machine Learning Classifiers
+
+-------------------------------------------------------------------------------
+|                                 Team Members                                |
+-------------------------------------------------------------------------------
+
+Jordan Hand
+Joshua Malters
+Kevin Fong
+
+-------------------------------------------------------------------------------
+|                      What is the program supposeed to do?                   |
+-------------------------------------------------------------------------------
+
+This program allows users to explore 3 different data sets (see below for more
+usage info) and run multiple machine learning techniques on each data set. The
+specific techniques covered will be discussed in the following section. The
+primary focus is on classification algorithms in machine learning.
+
+Our program is also designed to allow users to compare algorithms/techniques.
+The prgram is interactive so users can select options of what topics they
+would like to see in action. The program exits after the chose topic runs so
+the user should just run the program again to look into different techniques
+and topics.
+
+-------------------------------------------------------------------------------
+|                                Techniques Used                              |
+-------------------------------------------------------------------------------
+
+Note that we used these concepts in the context of classification of text data.
+These techniques work slightly differently when used for regression.
+
+|| Algorithms ||
+
+Naive Bayes Classifier:
+
+    Naive Bayes classifiers rely on baysian statistics and, in particular,
+    Bayes Rule to determine class labels for a given feature set. To train
+    the classifier, a training set is used to build counts of certain
+    features for each class label. When a data point is classified,
+    probabilities are calculated for P(class|features) for each class. The
+    record is classified based on which class label has the highest
+    probability.
+
+    In our experience, Naive Bayes is incredibly fast and fairly accurate
+    for classifying text data.
+
+K Nearest Neighbors:
+
+    K Nearest Neighbors classifiers work by checking a record against each
+    training record and finding the k (integer value) records in the training
+    data which most closely match the test record. For classifying text data,
+    we chose to compare records by how many words they have in common.
+
+    K Nearest Neighbors is quite a bit slower than naive bayes. This is because
+    comparing long sets of words to find their intersection is a somewhat
+    computationally intensive task.
+
+Bagging:
+
+    Bagging, or Bootstrap Aggregating, is a meta algorithm that uses bootstrap
+    sampling (covered later in this section) to create multiple training sets.
+    These training sets are used to train multiple instances of different
+    classifiers. Then when a record is classified, it is classified by each
+    of the classifiers and then they each cast a vote for what class label they
+    think the test record belongs to. The class label with the most votes is
+    selected as the actual class label.
+
+    In our experience bagging is a bit more accurate for the most part. For
+    example, in general, using the same training and test sets, bagging using
+    9 classifiers (both knn and naive bayes) is about 1-2% more accurate than
+    naive bayes and 3-5% more accurate than k nearest neighbors. It takes a bit
+    more time to run than the other 2 as it aggregates multiple instances of
+    knn and naive bayes.
+
+-------------------------------------------------------------------------------
+|                          Sample Session Transcript                          |
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+|                              Demo Instructions                              |
+-------------------------------------------------------------------------------
+
+To run this program you should use the classify.py file. You will not need to
+run any other python files. We have only tested the program with python 3.5
+so you should use that version of python to run it. It also requires numpy
+to be installed on the system.
+
+You can run the program with any of our predefined data models. The options
+are emails, fruit, and chess. To run the program you can use the following
+command with a data model as the first and only argument:
+
+python3 classify.py emails
+
+Once the program starts, you can follow the instructions to explore different
+concepts and algorithms. Note that different algorithms may take a minute
+or two to run depending on the data set.
+
+-------------------------------------------------------------------------------
+|                            Interesting Code Exerpt                          |
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+|                                What we learned                              |
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+|                                    Citations                                |
+-------------------------------------------------------------------------------
