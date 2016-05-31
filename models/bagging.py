@@ -1,17 +1,30 @@
+"""
+Jordan Hand, Josh Malters, and Kevin Fong
+CSE 415 Spring 2016
+Professor: S. Tanimoto
+Final Project
+
+Bagging classifier. Uses multiple classifiers and votes on each classification.
+"""
 import comparison as comp
 
 
 class bagging(object):
+    """
+    A machine learning classifier which uses bagging to combine multiple
+    trainers to vote on a classification. In theory this provides greater
+    accuracy.
+    """
     def __init__(self, data, trainers, iterations):
         self.classifiers = []
         self.data = data[:]
         self.indices = set(range(len(data)))
         t_mult = []
-        for i in range(9):
-            if i < 5:
-                t_mult.append(trainers[0])
-            else:
-                t_mult.append(trainers[1])
+        n_trainers = 9
+        for i in range(n_trainers):
+            t_mult.append(trainers[i % len(trainers)])
+
+        # Trains each classifier on given data set
         for t in t_mult:
             n = len(data)
             split = comp.b_data_split(data, n)
@@ -20,6 +33,10 @@ class bagging(object):
             self.classifiers.append(t(train))
 
     def classify(self, attributes, output):
+        """
+        Classifies an item with given attributes. If output is True, prints
+        information about each classification.
+        """
         votes = {}
         for c in self.classifiers:
             lbl = c.classify(attributes, output)
@@ -32,9 +49,3 @@ class bagging(object):
             print("Chosen label: " + str(sorted_votes[0][0]))
             print("Votes: " + str(list(votes.items())))
         return sorted_votes[0][0]
-
-    def get_test_data(self):
-        test_data = []
-        for i in self.indices:
-            test_data.append(self.data[i])
-        return test_data

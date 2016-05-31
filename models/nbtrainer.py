@@ -1,3 +1,13 @@
+"""
+Jordan Hand, Josh Malters, and Kevin Fong
+CSE 415 Spring 2016
+Professor: S. Tanimoto
+Final Project
+
+Utility used to train records for a naive bayes classifier.
+"""
+
+
 class nbtrainer(object):
     def __init__(self):
         super(nbtrainer, self).__init__()

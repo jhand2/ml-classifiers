@@ -1,4 +1,11 @@
-from time import time as t
+"""
+Jordan Hand, Josh Malters, and Kevin Fong
+CSE 415 Spring 2016
+Professor: S. Tanimoto
+Final Project
+
+K nearest neighbors classifier. K is 3 by default
+"""
 
 
 class knnclassifier(object):

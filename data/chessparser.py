@@ -1,6 +1,12 @@
+"""
+Jordan Hand, Josh Malters, and Kevin Fong
+CSE 415 Spring 2016
+Final Project
+Professor: S. Tanimoto
+
+Parsing utility to parse text files into indivudal records for each file.
+"""
 import os
-import re
-import numpy as np
 
 
 def parse_directory(dirname, label):
@@ -18,7 +24,7 @@ def parse_directory(dirname, label):
         path = os.path.join(d, f)
         if os.path.isfile(path):
             records.append(parse_file(f, path, label))
-    return np.array(records)
+    return records
 
 
 def parse_file(fname, path, label):
@@ -35,21 +41,18 @@ def parse_file(fname, path, label):
     record['name'] = fname.decode("utf-8")
     return record
 
-stop_words = set(['the', 'a', 'an', 'and', 'or', 'as', 'at', 'be', 'for',
-                  'it', 'is', 'in', 'of', 'on', 'that', 'to', 'its', 'were',
-                  'with', 'all', 'he', 'has'])
-
 
 def extract_words(f):
     """
-    Takes a string f of words and parses them into a list of words.
+    Takes a string f board and parses it into a list
     """
-    text = []
-    try:
-        for line in f:
-            words = re.sub("[^\w]", " ", line).split()
-            text += [x.lower() for x in words]
-    except UnicodeDecodeError:
-        pass
-    w = set(text) - stop_words
-    return w
+    board = []
+    for line in f:
+        temp = line.split(',')[:-1]
+        board = []
+        left = temp[::2]
+        right = temp[1::2]
+        piece = ['WKing:', 'WRook:', 'BKing:']
+        for x in range(len(left)):
+            board.append(piece[x] + left[x] + right[x])
+    return frozenset(board)

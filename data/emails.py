@@ -1,3 +1,12 @@
+"""
+Jordan Hand, Josh Malters, and Kevin Fong
+CSE 415 Spring 2016
+Professor: S. Tanimoto
+Final Project
+
+Emails data formulation. Contains emails released from enron and marked as
+either spam or "ham" (aka not spam).
+"""
 import emailparser as parser
 from nbtrainer import nbtrainer
 from nbclassifier import nbclassifier
@@ -7,7 +16,7 @@ import comparison as comp
 import os
 import numpy as np
 
-root_dir = os.path.abspath('enron1/')
+root_dir = os.path.abspath('data/enron1/')
 ham = parser.parse_directory(root_dir + "/ham", "ham")
 spam = parser.parse_directory(root_dir + "/spam", "spam")
 data = np.concatenate((spam, ham))

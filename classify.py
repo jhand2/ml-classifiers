@@ -1,8 +1,30 @@
 #!/bin/python3.5
+"""
+Jordan Hand, Josh Malters, and Kevin Fong
+CSE 415 Spring 2016
+Professor: S. Tanimoto
+Final Project
+
+Main program for this project. Runs interactive dialog to allow users to try out
+different machine learning concepts on different data sets.
+
+Only tested with python 3.5
+
+Usage:
+    classify.py [data_model]
+
+    available data models: [emails, fruit, chess]
+"""
 import sys
+import os
 import importlib
 import time
 
+sys.path.append(os.path.abspath('data'))
+sys.path.append(os.path.abspath('metrics'))
+sys.path.append(os.path.abspath('models'))
+
+# Imports data model
 if len(sys.argv) < 2:
     print("Usage:")
     print("\tclassify.py [model_module]")
@@ -11,20 +33,62 @@ else:
     model = importlib.import_module(sys.argv[1])
 
 
+def intro():
+    """
+    Dialog intro. Returns the concept chosen by the user.
+    """
+    options = ["algorithms", "bagging", "comparison"]
+    concept = ""
+    valid = False
+    print("Let's explore some machine learing alorithms.")
+    print("Which topic would you like to cover? ")
+    while not valid:
+        print("Options are " + str(options))
+        concept = input(">> ").lower()
+        valid = concept in options
+        if not valid:
+            print("")
+            print(concept + " is not an available concept.")
+            print("")
+    return concept
+
+
 def get_classifier(m):
+    """
+    Dialog to get classifier type. Returns the classifier name chosen by the
+    user.
+    """
     print("Welcome to a data model of %s." % sys.argv[1])
     print("")
     print("Please choose a classifier.")
-    print("Options are: " + str(sorted(list(m.trainers.keys()))))
-    return input(">> ")
+    options = sorted(list(m.trainers.keys()))
+    classifier = ""
+    valid = False
+    while not valid:
+        print("Options are: " + str(options))
+        classifier = input(">> ").lower()
+        valid = classifier in options
+        if not valid:
+            print("")
+            print(classifier + " is not an available option.")
+            print("")
+    return classifier
 
 
 def get_test_method(m):
     print("")
     print("Please choose a testing method.")
-    print("Options are: " + str(sorted(list(m.tests.keys()))))
-    test = input(">> ")
-    print("")
+    options = sorted(list(m.tests.keys()))
+    test = ""
+    valid = False
+    while not valid:
+        print("Options are: " + str(options))
+        test = input(">> ").lower()
+        print("")
+        valid = test in options
+        if not valid:
+            print(test + " is not an available option.")
+            print("")
     return test
 
 
@@ -39,39 +103,37 @@ def run_test(m, classifier, test):
     return acc
 
 
-def intro():
-    options = ["Algorithms", "Bagging", "Comparison"]
-    print("Let's explore some machine learing alorithms.")
-    print("Which topic would you like to cover? ")
-    print("Options are " + str(options))
-    return input(">> ")
-
-
 def compare(m):
     """
-    Gets the two algorithms to be compared
+    Gets the two algorithms to be compared. Returns algorithm names in a tuple
     """
-    options = sorted(list(m.trainers.keys())) + ["bagging"]
+    options = sorted(list(m.trainers.keys()) + ["bagging"])
     print("Choose two algorithms to compare.")
-    print("Options are: " + str(options))
-    print("")
     first = ""
     second = ""
-    seen = False
-    while first not in options or second not in options:
-        if seen:
-            print("Not valid algorithms")
-            print("")
-        first = input("First algorithm: ")
-        second = input("Second algorithm: ")
+    valid = False
+    while not valid:
+        print("Options are: " + str(options))
         print("")
-        seen = True
+        first = input("First algorithm: ").lower()
+        second = input("Second algorithm: ").lower()
+        print("")
+        valid = (first in options and second in options) or first == second
+        if not valid:
+            print("One or both of (%s, %s) not valid." % first, second)
+            print("Note, both algorithms cannot be the same.")
+            print("")
     print("")
-    return (first.lower(), second.lower())
+    return (first, second)
 
 if __name__ == "__main__":
+    """
+    Runs this big long dialog. If you want to semi understand this code
+    it is probably best to just run the program.
+    """
+
     m = model
-    topic = intro().lower()
+    topic = intro()
     classifier = None
     if topic != "comparison":
         if topic == "algorithms":

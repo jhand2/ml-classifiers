@@ -1,4 +1,13 @@
 #!/bin/python3.5
+"""
+Jordan Hand, Josh Malters, and Kevin Fong
+CSE 415 Spring 2016
+Professor: S. Tanimoto
+Final Project
+
+Fruit data formulation. Fruits are classified as either lemon, banana, or
+other.
+"""
 
 from nbtrainer import nbtrainer
 from nbclassifier import nbclassifier

@@ -1,4 +1,10 @@
 Machine Learning Classifiers
 ----------------------------
 
-We have implemented K Nearest Neighbor and Naive Bayes classifiers and trained them on multiple data sets.
+This project implements various machine learning topics/algorithms and attempts
+to provde some transparency into how they are working and what kind of accuracy
+these algorithms achieve.
+
+More information can be found in report.txt
+
+Code style guidelines can be found in style_guide.txt

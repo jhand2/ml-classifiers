@@ -1,3 +1,11 @@
+"""
+Jordan Hand, Josh Malters, and Kevin Fong
+CSE 415 Spring 2016
+Professor: S. Tanimoto
+Final Project
+
+Runs tests for various methods and classifiers.
+"""
 import random as r
 import numpy as np
 
@@ -9,14 +17,17 @@ def holdout_test(data, training_func, output, keys):
     params:
         data (list): A list of data objects
 
+        training_func (function): A function that can take a subset of data to
+                                  train a classifier. Should return a classifier
+
+        output (bool): If True, will output information aboout each
+                       classification.
+
         keys (triple): A triple of keys to access pieces of the data
 
             feature_key: Used to get the attributes of an individual data point
             label_key: Used to get the features of an individual data point
             name_key: Used to get the name of an individual data point
-
-        training_func (function): A function that can take a subset of data to
-                                  train a classifier. Should return a classifier
     """
     n = (len(data) // 10) * 9
     training_data, test_data = holdout_split(data, n)
@@ -34,6 +45,9 @@ def holdout_test(data, training_func, output, keys):
 
 
 def holdout_split(data, n):
+    """
+    Splits data at split point n using the holdout method.
+    """
     data_cpy = data[:]
     r.shuffle(data_cpy)
     training_data = np.array(data_cpy[:n])
@@ -48,14 +62,17 @@ def bootstrap_test(data, training_func, output, keys):
     params:
         data (list): A list of data objects
 
-        keys (triple): A triple of keys to access pieces of the data
-
-            feature_key: Used to get the features of an individual data point
-            label_key: Used to get the label of an individual data point
-            name_key: Used to get the name of an individual data point
-
         training_func (function): A function that can take a subset of data to
                                   train a classifier. Should return a classifier
+
+        output (bool): If True, will output information aboout each
+                       classification.
+
+        keys (triple): A triple of keys to access pieces of the data
+
+            feature_key: Used to get the attributes of an individual data point
+            label_key: Used to get the features of an individual data point
+            name_key: Used to get the name of an individual data point
     """
     n = (len(data) // 10) * 9
     training, test_data, _ = b_data_split(data, n)
@@ -74,6 +91,25 @@ def bootstrap_test(data, training_func, output, keys):
 
 
 def bagging_test(data, training_func, output, keys):
+    """
+    Runs a test for the bagging method. Very similar to holdout code but has
+    some extra output. The real bagging logic is in the bagging classifier.
+
+    params:
+        data (list): A list of data objects
+
+        training_func (function): A function that can take a subset of data to
+                                  train a classifier. Should return a classifier
+
+        output (bool): If True, will output information aboout each
+                       classification.
+
+        keys (triple): A triple of keys to access pieces of the data
+
+            feature_key: Used to get the attributes of an individual data point
+            label_key: Used to get the features of an individual data point
+            name_key: Used to get the name of an individual data point
+    """
     n = (len(data) // 10) * 9
     training, test_data = holdout_split(data, n)
     print("Classifying " + str(len(test_data)) + " data points.")

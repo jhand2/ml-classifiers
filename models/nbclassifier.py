@@ -1,3 +1,11 @@
+"""
+Jordan Hand, Josh Malters, and Kevin Fong
+CSE 415 Spring 2016
+Professor: S. Tanimoto
+Final Project
+
+Naive Bayes classifier. Uses naive bayes method to classifiy records.
+"""
 import math
 
 
