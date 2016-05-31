@@ -1,0 +1,5 @@
+Jordan Hand, Josh Malters, and Kevin Fong
+Machine Learning Classifiers
+CSE 415 Spring 2016
+
+See README.txt for more information about this project.
