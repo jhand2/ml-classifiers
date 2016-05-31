@@ -15,14 +15,14 @@ def get_classifier(m):
     print("Welcome to a data model of %s." % sys.argv[1])
     print("")
     print("Please choose a classifier.")
-    print("Options are: " + str(list(m.trainers.keys())))
+    print("Options are: " + str(sorted(list(m.trainers.keys()))))
     return input(">> ")
 
 
 def get_test_method(m):
     print("")
     print("Please choose a testing method.")
-    print("Options are: " + str(list(m.tests.keys())))
+    print("Options are: " + str(sorted(list(m.tests.keys()))))
     test = input(">> ")
     print("")
     return test
@@ -51,7 +51,7 @@ def compare(m):
     """
     Gets the two algorithms to be compared
     """
-    options = list(m.trainers.keys()) + ["bagging"]
+    options = sorted(list(m.trainers.keys())) + ["bagging"]
     print("Choose two algorithms to compare.")
     print("Options are: " + str(options))
     print("")
@@ -98,9 +98,9 @@ if __name__ == "__main__":
         for alg in algs:
             s = time.time()
             if alg == "bagging":
-                acc = m.tests["holdout"](m.data, m.bagging_trainer, False)
+                acc = m.tests["holdout"](m.data, m.bagging_trainer, False) * 100
             else:
-                acc = m.tests["holdout"](m.data, m.trainers[alg], False)
+                acc = m.tests["holdout"](m.data, m.trainers[alg], False) * 100
             e = time.time()
             accuracies.append((alg, acc, e - s))
         print("")
