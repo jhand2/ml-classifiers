@@ -6,4 +6,4 @@ clean:
 	rm -f cse415-project.zip
 
 dist:
-	zip -r cse415-project . -x *.git*
+	zip -r cse415-project ../cse415-project -x *.git*

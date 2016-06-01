@@ -54,7 +54,7 @@ python3.5 classify.py emails
 More info:
 ----------
 
-More information can be found in report.txt
+More information can be found in report.pdf
 
 Code style guidelines can be found in style_guide.txt
 

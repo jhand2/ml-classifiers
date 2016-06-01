@@ -40,7 +40,7 @@ def intro():
     options = ["algorithms", "bagging", "comparison"]
     concept = ""
     valid = False
-    print("Let's explore some machine learing alorithms.")
+    print("Let's explore some machine learning algorithms.")
     print("Which topic would you like to cover? ")
     while not valid:
         print("Options are " + str(options))

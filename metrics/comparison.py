@@ -135,8 +135,6 @@ def b_data_split(data, n):
     """
     Splits the data using the bootstrap method
     """
-    # n = (len(data) // 10) * 9
-    # n = len(data)
     training = []
     indices = set()
     data_range = range(len(data))
